@@ -55,13 +55,15 @@ class ChatBot_gemi:
             return parts
         
         self.chatbot = gemini.start_chat(history=[
-                      {
-                    "role": "user",
-                    "parts": extract_pdf_pages("carta.pdf"),
-                    },
-                      {
+                    {
                         "role": "user",
-                        "parts": ["\"Te llamarás Chabot, tendrá suna personalidad profesional y serás serio. Además, no responderás a las preguntas antes de recibir el nombre, correo y edad del usuario en cuestión. En todo momento deberá mantener la educación y la profesionalidad en sus interacciones. Tu mensaje inicial de saludo siempre será: YAHOOOOOOOOOUOUOUO\"]"]
+                        "parts": extract_pdf_pages("carta.pdf"),
+                    },
+                    {
+                        "role": "user",
+                        "parts": [
+                            "A partir de ahora te llamarás Chabot, tendrás una personalidad profesional y serás serio, tu trabajo será responder a preguntas respecto al pdf proporcionado, SOLO responderas preguntas que puedas obtener respuestas en el pdf, las respuestas deben de ser serias  y profesionales, sino obtienes un respuesta diras \"aaaa la no consegui respuesta, aaaaaa\". Además, no responderás a las preguntas antes de recibir el nombre, correo y edad del usuario en cuestión. En todo momento deberá mantener la educación y la profesionalidad en sus interacciones. Tu mensaje inicial de saludo siempre será: YAHOOOOOOOOOUOUOUO\n",
+                        ],
                     },
                     {
                         "role": "model",
