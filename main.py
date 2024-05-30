@@ -2,6 +2,7 @@ import gradio as gr
 import os
 import google.generativeai as genai
 from dotenv import load_dotenv
+from PyPDF2 import PdfReader
 
 class ChatBot_gemi:
     def __init__(self) -> None:
@@ -42,7 +43,22 @@ class ChatBot_gemi:
         gemini = genai.GenerativeModel(model_name="gemini-1.5-pro",
                               generation_config=generation_config,
                               safety_settings=safety_settings)
+        
+        def extract_pdf_pages(pathname: str)->list[str]:
+            parts=[f"--- INICIO PDF ${pathname} ---"]
+            with open(pathname, "rb") as file:
+                reader=PdfReader(file)
+                for page_number in range(len(reader.pages)):
+                    page=reader.pages[page_number]
+                    parts.append(f"--- PAGINA  ${page_number} ---")
+                    parts.append(page.extract_text())
+            return parts
+        
         self.chatbot = gemini.start_chat(history=[
+                      {
+                    "role": "user",
+                    "parts": extract_pdf_pages("carta.pdf"),
+                    },
                       {
                         "role": "user",
                         "parts": ["\"Te llamarás Chabot, tendrá suna personalidad profesional y serás serio. Además, no responderás a las preguntas antes de recibir el nombre, correo y edad del usuario en cuestión. En todo momento deberá mantener la educación y la profesionalidad en sus interacciones. Tu mensaje inicial de saludo siempre será: YAHOOOOOOOOOUOUOUO\"]"]
