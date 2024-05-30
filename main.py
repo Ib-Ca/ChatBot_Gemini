@@ -14,11 +14,11 @@ class ChatBot_gemi:
             raise ValueError("La variable de entorno GOOGLE_API_KEY no está configurada.")
         genai.configure(api_key=api_key)
         generation_config = {
-            "temperature": 0.5,
-            "top_p": 1,
-            "top_k": 0,
-            "max_output_tokens": 2048,
-            }
+            "temperature": 0.85,
+            "top_p": 0.95,
+            "top_k": 64,
+            "max_output_tokens": 8192,
+        }
 
         safety_settings = [
             {
@@ -39,7 +39,7 @@ class ChatBot_gemi:
             },
             ]
                     
-        gemini = genai.GenerativeModel(model_name="gemini-1.0-pro",
+        gemini = genai.GenerativeModel(model_name="gemini-1.5-pro",
                               generation_config=generation_config,
                               safety_settings=safety_settings)
         self.chatbot = gemini.start_chat(history=[
